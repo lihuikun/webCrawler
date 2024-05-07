@@ -26,3 +26,7 @@ jobs:
           cache: 'npm'
       - run: npm install
       - run: node app.js
+    env:
+        EMAILPASSWORD: ${{ secrets.EMAILPASSWORD }}
+        EMAIL: ${{ secrets.EMAIL }}
+        SECRET: ${{ secrets.SECRET }}
