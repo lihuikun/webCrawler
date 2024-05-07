@@ -67,8 +67,8 @@ async function sendEmailWithImage2 (recipientEmail) {
     port: 587, // SMTP端口
     secure: false, // 如果端口为465，则为true，其他端口通常为false
     auth: {
-      user: '1438828140@qq.com', // 发送者邮箱
-      pass: 'hzdxyilxtvlfiggf' // 邮箱密码或应用专用密码
+      user: process.env.EMAIL, // 发送者邮箱
+      pass: process.env.EMAILPASSWORD // 邮箱密码或应用专用密码
     }
   });
   // 生成邮件的 HTML 内容，包含所有图片
