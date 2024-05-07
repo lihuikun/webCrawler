@@ -9,7 +9,7 @@ import { signIn } from './src/juejin/index.js';
 const main = async () => {
   // 获取 access_token
   try {
-    // signIn()
+    signIn()
     await sendEmailWithImage2('lihk180542@gmail.com');
     await sendEmailWithImage2('2764639880@qq.com');
   } catch (error) {
