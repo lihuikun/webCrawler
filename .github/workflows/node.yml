@@ -2,7 +2,7 @@ name: Run Email Script
 
 on:
   schedule:
-    - cron: '35 14 * * *'  # Cron syntax defining the schedule - This example would run the job every day at 12:00
+    - cron: '43 14 * * *'  # Cron syntax defining the schedule - This example would run the job every day at 12:00
 
 jobs:
   runScript:
