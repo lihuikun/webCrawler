@@ -29,13 +29,13 @@ const weekList = {
   '星期日': '猪猪，好好休息吧，明天要上班啦，呜呜呜',
 }
 const iconMap = {
-  '晴': 'E:\\wy\\node\\webCcrawler\\src\\img\\晴天.png',
-  '多云': 'E:\\wy\\node\\webCcrawler\\src\\img\\多云.png',
-  '阴': 'E:\\wy\\node\\webCcrawler\\src\\img\\阴天.png',
-  '阵雨': 'E:\\wy\\node\\webCcrawler\\src\\img\\多云.png',
-  '雷阵雨': 'E:\\wy\\node\\webCcrawler\\src\\img\\雷阵雨.png',
-  '雷阵雨伴有冰雹': 'E:\\wy\\node\\webCcrawler\\src\\img\\雷阵雨.png',
-  '雨夹雪': 'E:\\wy\\node\\webCcrawler\\src\\img\\雷阵雨.png',
+  '晴': 'https://github.com/lihuikun/webCrawler/blob/master/src/img/%E6%99%B4%E5%A4%A9.png?raw=true',
+  '多云': 'https://github.com/lihuikun/webCrawler/blob/master/src/img/%E5%A4%9A%E4%BA%91.png?raw=true',
+  '阴': 'https://github.com/lihuikun/webCrawler/blob/master/src/img/%E9%98%B4%E5%A4%A9.png?raw=true',
+  '阵雨': 'https://github.com/lihuikun/webCrawler/blob/master/src/img/%E5%A4%9A%E4%BA%91.png?raw=true',
+  '雷阵雨': 'https://github.com/lihuikun/webCrawler/blob/master/src/img/%E9%9B%B7%E9%98%B5%E9%9B%A8.png?raw=true',
+  '雷阵雨伴有冰雹': 'https://github.com/lihuikun/webCrawler/blob/master/src/img/%E9%9B%B7%E9%98%B5%E9%9B%A8.png?raw=true',
+  '雨夹雪': 'https://github.com/lihuikun/webCrawler/blob/master/src/img/%E9%9B%B7%E9%98%B5%E9%9B%A8.png?raw=true',
 }
 const getdata = async () => {
   const weaterApi = `http://v1.yiketianqi.com/free/day?appid=19324865&appsecret=fWufvW2v&unescape=1&city=深圳`
@@ -76,7 +76,7 @@ async function sendEmailWithImage2 (recipientEmail) {
     <h1>🌈 欢迎来到每日频道 🌟</h1>
     <p>以下是我们精选的内容，希望您喜欢：</p>
     <div style="background-color: #f0f0f0; padding: 15px; margin-top: 30px; border-radius: 8px;">
-      <h2><img src='cid:image-1' style="width: 20px;" /> 今日天气</h2>
+      <h2>🌈 今日天气</h2>
       <p>${weatherData.date}</p>
       <p>${weatherData.weather}</p>
       <p>${weatherData.temperature}</p>
@@ -99,8 +99,6 @@ async function sendEmailWithImage2 (recipientEmail) {
     html: htmlContent, // HTML内容
     attachments: [{
       filename: weatherData.wea,
-      path: weatherData.icon,
-      cid: `image-1` // Content ID，用于在HTML内容中引用图片
     }]
   };
 
