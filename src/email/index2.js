@@ -1,0 +1,114 @@
+/*
+ * @Descripttion: 发送主题为每日词云图邮件
+ * @Author: lihk
+ * @Date: 2024-03-16 10:46:40
+ */
+import nodemailer from 'nodemailer';
+import axios from 'axios';
+import path from 'path';
+import { accessTokenUrl, calculateDaysSince, sendWechatMessage } from '../weChat/index.js';
+
+
+// 模板提示
+const tipsMap = {
+  '晴': '天气晴朗，记得出门戴口罩哦！',
+  '多云': '天气多云，记得多带件外套哦！',
+  '阴': '天气阴，记得出门带伞！',
+  '阵雨': '天气阵雨，记得出门带伞！',
+  '雷阵雨': '天气雷阵雨，记得出门带伞！',
+  '雷阵雨伴有冰雹': '天气阴沉，记得出门带伞！',
+  '雨夹雪': '天气阴沉，记得出门带伞！',
+}
+const weekList = {
+  '星期一': '早上好呀，猪猪，今天又是元气满满的一天，加油吧，打工人',
+  '星期二': '早上好呀，加油吧，打工人，还有三天就是周末了',
+  '星期三': '早上好呀，猪猪，加油吧，还有两天，周末快到了',
+  '星期四': '早上好呀，猪猪，今天你疯狂了？v我50',
+  '星期五': '早上好呀，猪猪，摸鱼搞起来',
+  '星期六': '猪猪，快乐周末开始了',
+  '星期日': '猪猪，好好休息吧，明天要上班啦，呜呜呜',
+}
+const iconMap = {
+  '晴': 'E:\\wy\\node\\webCcrawler\\src\\img\\晴天.png',
+  '多云': 'E:\\wy\\node\\webCcrawler\\src\\img\\多云.png',
+  '阴': 'E:\\wy\\node\\webCcrawler\\src\\img\\阴天.png',
+  '阵雨': 'E:\\wy\\node\\webCcrawler\\src\\img\\多云.png',
+  '雷阵雨': 'E:\\wy\\node\\webCcrawler\\src\\img\\雷阵雨.png',
+  '雷阵雨伴有冰雹': 'E:\\wy\\node\\webCcrawler\\src\\img\\雷阵雨.png',
+  '雨夹雪': 'E:\\wy\\node\\webCcrawler\\src\\img\\雷阵雨.png',
+}
+const getdata = async () => {
+  const weaterApi = `http://v1.yiketianqi.com/free/day?appid=19324865&appsecret=fWufvW2v&unescape=1&city=深圳`
+  const { data: { result: {
+    content,
+    note,
+  } } } = await axios.get('https://api.oioweb.cn/api/common/OneDayEnglish')
+  const { data: weaterResponse } = await axios.get(weaterApi);
+  const weatherData = {
+    date: new Date().toLocaleDateString() + ' - ' + weaterResponse.week,
+    weather: `${weaterResponse.city}-天气${weaterResponse.wea}-${weaterResponse.win}${weaterResponse.win_speed}`,
+    temperature: `${weaterResponse.tem_night}°C - ${weaterResponse.tem_day}°C`,
+    tip: tipsMap[weaterResponse.wea], // 这里可以根据天气情况给出不同的提示,
+    day: calculateDaysSince('2023/11/26'),
+    note,
+    content,
+    love: weekList[weaterResponse.week],
+    icon: iconMap[weaterResponse.wea]
+  };
+  return weatherData
+}
+
+
+async function sendEmailWithImage2 (recipientEmail) {
+  const weatherData = await getdata();
+  // 创建一个SMTP客户端配置
+  let transporter = nodemailer.createTransport({
+    host: 'smtp.qq.com', // 您的SMTP服务提供商的主机名
+    port: 587, // SMTP端口
+    secure: false, // 如果端口为465，则为true，其他端口通常为false
+    auth: {
+      user: '1438828140@qq.com', // 发送者邮箱
+      pass: 'hzdxyilxtvlfiggf' // 邮箱密码或应用专用密码
+    }
+  });
+  // 生成邮件的 HTML 内容，包含所有图片
+  let htmlContent = `
+    <h1>🌈 欢迎来到每日频道 🌟</h1>
+    <p>以下是我们精选的内容，希望您喜欢：</p>
+    <div style="background-color: #f0f0f0; padding: 15px; margin-top: 30px; border-radius: 8px;">
+      <h2><img src='cid:image-1' style="width: 20px;" /> 今日天气</h2>
+      <p>${weatherData.date}</p>
+      <p>${weatherData.weather}</p>
+      <p>${weatherData.temperature}</p>
+      <p>${weatherData.tip}</p>
+      <p>我们在一起已经 <span style="color: #91D4F9;">${weatherData.day}</span> 天</p>
+    </div>
+    <div style="background-color: #f0f0f0; padding: 15px; margin-top: 10px; border-radius: 8px;">
+      <h2>💡 今日语录</h2>
+      <p>${weatherData.note}</p>
+      <p>${weatherData.content}</p>
+      <p style='color: #B1A5C7;'>${weatherData.love}</p>
+    </div>
+  `
+  // 设置邮件内容
+  let mailOptions = {
+    from: '"每日天气预报频道" <1438828140@qq.com>', // 发件人
+    to: recipientEmail, // 收件人
+    subject: '每日天气预报', // 主题
+    text: '这里是每日天气预报频道的推荐.', // 纯文本内容
+    html: htmlContent, // HTML内容
+    attachments: [{
+      filename: weatherData.wea,
+      path: weatherData.icon,
+      cid: `image-1` // Content ID，用于在HTML内容中引用图片
+    }]
+  };
+
+  // 发送邮件
+  let info = await transporter.sendMail(mailOptions);
+  console.log('Message sent: %s', info.messageId);
+}
+
+export {
+  sendEmailWithImage2
+}
