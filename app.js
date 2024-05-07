@@ -79,7 +79,7 @@ const main = async () => {
 
 
 }
-// main()
+main()
 // axios(
 //   config.check_url, {
 //   method: 'get',
