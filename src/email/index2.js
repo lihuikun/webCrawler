@@ -46,8 +46,8 @@ const getdata = async () => {
   const { data: weaterResponse } = await axios.get(weaterApi);
   const weatherData = {
     date: weaterResponse.data.forecast[0].ymd + weaterResponse.data.forecast[0].week,
-    weather: `${weaterResponse.city}-天气${weaterResponse.wea}-${weaterResponse.win}${weaterResponse.win_speed}`,
-    temperature: `${weaterResponse.data.forecast[0].low}°C - ${weaterResponse.data.forecast[0].high}°C`,
+    weather: `${weaterResponse.data.forecast[0].fx} - ${weaterResponse.data.forecast[0].fl} - ${weaterResponse.data.forecast[0].type}`,
+    temperature: `${weaterResponse.data.forecast[0].low} - ${weaterResponse.data.forecast[0].high}`,
     tip: weaterResponse.data.forecast[0].notice, // 这里可以根据天气情况给出不同的提示,
     day: calculateDaysSince('2023/11/26'),
     note,
