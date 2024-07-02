@@ -44,12 +44,11 @@ const getdata = async () => {
     note,
   } } } = await axios.get('https://api.oioweb.cn/api/common/OneDayEnglish')
   const { data: weaterResponse } = await axios.get(weaterApi);
-  console.log(weaterResponse)
   const weatherData = {
-    date: weaterResponse.forecast[0].ymd+weaterResponse.forecast[0].week,
+    date: weaterResponse.data.forecast[0].ymd + weaterResponse.data.forecast[0].week,
     weather: `${weaterResponse.city}-天气${weaterResponse.wea}-${weaterResponse.win}${weaterResponse.win_speed}`,
-    temperature: `${weaterResponse.forecast[0].low}°C - ${weaterResponse.forecast[0].high}°C`,
-    tip: weaterResponse.forecast[0].notice, // 这里可以根据天气情况给出不同的提示,
+    temperature: `${weaterResponse.data.forecast[0].low}°C - ${weaterResponse.data.forecast[0].high}°C`,
+    tip: weaterResponse.data.forecast[0].notice, // 这里可以根据天气情况给出不同的提示,
     day: calculateDaysSince('2023/11/26'),
     note,
     content,
