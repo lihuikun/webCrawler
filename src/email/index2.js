@@ -44,6 +44,7 @@ const getdata = async () => {
     note,
   } } } = await axios.get('https://api.oioweb.cn/api/common/OneDayEnglish')
   const { data: weaterResponse } = await axios.get(weaterApi);
+  console.log(weaterResponse)
   const weatherData = {
     date: weaterResponse.forecast[0].ymd+weaterResponse.forecast[0].week,
     weather: `${weaterResponse.city}-天气${weaterResponse.wea}-${weaterResponse.win}${weaterResponse.win_speed}`,
