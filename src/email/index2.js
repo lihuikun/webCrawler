@@ -38,17 +38,17 @@ const iconMap = {
   '雨夹雪': 'https://github.com/lihuikun/webCrawler/blob/master/src/img/%E9%9B%B7%E9%98%B5%E9%9B%A8.png?raw=true',
 }
 const getdata = async () => {
-  const weaterApi = `http://v1.yiketianqi.com/free/day?appid=19324865&appsecret=fWufvW2v&unescape=1&city=深圳`
+  const weaterApi = `http://t.weather.itboy.net/api/weather/city/101280601`
   const { data: { result: {
     content,
     note,
   } } } = await axios.get('https://api.oioweb.cn/api/common/OneDayEnglish')
   const { data: weaterResponse } = await axios.get(weaterApi);
   const weatherData = {
-    date: new Date().toLocaleDateString() + ' - ' + weaterResponse.week,
+    date: weaterResponse.forecast[0].ymd+weaterResponse.forecast[0].week,
     weather: `${weaterResponse.city}-天气${weaterResponse.wea}-${weaterResponse.win}${weaterResponse.win_speed}`,
-    temperature: `${weaterResponse.tem_night}°C - ${weaterResponse.tem_day}°C`,
-    tip: tipsMap[weaterResponse.wea], // 这里可以根据天气情况给出不同的提示,
+    temperature: `${weaterResponse.forecast[0].low}°C - ${weaterResponse.forecast[0].high}°C`,
+    tip: weaterResponse.forecast[0].notice, // 这里可以根据天气情况给出不同的提示,
     day: calculateDaysSince('2023/11/26'),
     note,
     content,
@@ -87,7 +87,6 @@ async function sendEmailWithImage2 (recipientEmail) {
       <h2>💡 今日语录</h2>
       <p>${weatherData.note}</p>
       <p>${weatherData.content}</p>
-      <p style='color: #B1A5C7;'>${weatherData.love}</p>
     </div>
   `
   // 设置邮件内容
