@@ -94,7 +94,7 @@ async function sendEmailWithImage2 (recipientEmail) {
   let mailOptions = {
     from: '"每日天气预报频道" <1438828140@qq.com>', // 发件人
     to: recipientEmail, // 收件人
-    subject: '每日天气预报', // 主题
+    subject: `我们在一起已经${weatherData.day}天`, // 主题
     text: '这里是每日天气预报频道的推荐.', // 纯文本内容
     html: htmlContent, // HTML内容
     attachments: [{
