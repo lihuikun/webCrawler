@@ -19,7 +19,7 @@ const signIn = async () => {
       'Cookie': config.cookie
     },
   })
-  const { data } = await axios({
+  await axios({
     method: 'post',
     url: config2.check_url,
     headers: {
