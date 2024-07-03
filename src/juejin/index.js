@@ -6,7 +6,7 @@ const config = {
   check_url: 'https://api.juejin.cn/growth_api/v1/check_in?aid=2608&uid=7187686052052125222'
 }
 const config2 = {
-  cookie: process.env.COOKIE2,
+  cookie: process.env.COOKIES,
   url: 'https://juejin.cn/',
   check_url: 'https://api.juejin.cn/growth_api/v1/check_in?aid=2608&uid=7382208359380108863'
 }
