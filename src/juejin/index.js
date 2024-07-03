@@ -19,7 +19,7 @@ const signIn = async () => {
       'Cookie': config2.cookie
     },
   })
-  console.log('掘金签到：' + data.err_msg)
+  console.log('掘金签到：' + data)
 }
 export {
   signIn
