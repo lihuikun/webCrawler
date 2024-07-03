@@ -96,9 +96,6 @@ async function sendEmailWithImage2 (recipientEmail) {
     subject: `我们在一起已经${weatherData.day}天，${weatherData.note}`, // 主题
     text: '这里是每日天气预报频道的推荐.', // 纯文本内容
     html: htmlContent, // HTML内容
-    attachments: [{
-      filename: weatherData.wea,
-    }]
   };
 
   // 发送邮件
