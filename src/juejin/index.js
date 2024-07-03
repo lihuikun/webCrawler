@@ -13,14 +13,6 @@ const config2 = {
 const signIn = async () => {
   const { data } = await axios({
     method: 'post',
-    url: config.check_url,
-    headers: {
-      'Referer': config.url,
-      'Cookie': config.cookie
-    },
-  })
-  await axios({
-    method: 'post',
     url: config2.check_url,
     headers: {
       'Referer': config2.url,
