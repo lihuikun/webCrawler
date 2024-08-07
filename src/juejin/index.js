@@ -3,7 +3,7 @@ import axios from 'axios'
 const config = {
   cookie: process.env.COOKIE,
   url: 'https://juejin.cn/',
-  check_url: 'https://api.juejin.cn/growth_api/v1/check_in?aid=2608&uid=7187686052052125222'
+  check_url: 'https://api.juejin.cn/growth_api/v1/check_in?aid=2608&uid=7367263251858556443'
 }
 const config2 = {
   cookie: process.env.COOKIES,
