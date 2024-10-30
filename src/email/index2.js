@@ -39,23 +39,27 @@ const iconMap = {
 }
 const getdata = async () => {
   const weaterApi = `http://t.weather.itboy.net/api/weather/city/101280601`
-  const { data: { result: {
-    content,
-    note,
-  } } } = await axios.get('https://api.oioweb.cn/api/common/OneDayEnglish')
-  const { data: weaterResponse } = await axios.get(weaterApi);
+
+  const promises = [
+    axios.get('https://api.oioweb.cn/api/common/OneDayEnglish').catch(() => ({ data: { result: { content: '数据加载失败', note: '数据加载失败' } } })),
+    axios.get(weaterApi).catch(() => ({ data: { forecast: [{ ymd: '日期加载失败', week: '周几加载失败', fx: '风向加载失败', fl: '风力加载失败', type: '天气加载失败', low: '最低温度加载失败', high: '最高温度加载失败', notice: '天气提示加载失败' }] } }))
+  ];
+
+  const [englishResponse, weaterResponse] = await Promise.all(promises);
+
   const weatherData = {
     date: weaterResponse.data.forecast[0].ymd + weaterResponse.data.forecast[0].week,
     weather: `${weaterResponse.data.forecast[0].fx} - ${weaterResponse.data.forecast[0].fl} - ${weaterResponse.data.forecast[0].type}`,
     temperature: `${weaterResponse.data.forecast[0].low} - ${weaterResponse.data.forecast[0].high}`,
-    tip: weaterResponse.data.forecast[0].notice, // 这里可以根据天气情况给出不同的提示,
+    tip: weaterResponse.data.forecast[0].notice,
     day: calculateDaysSince('2023/11/26'),
-    note,
-    content,
+    note: englishResponse.data.result.note,
+    content: englishResponse.data.result.content,
     love: weekList[weaterResponse.week],
     icon: iconMap[weaterResponse.wea]
   };
-  return weatherData
+
+  return weatherData;
 }
 
 
