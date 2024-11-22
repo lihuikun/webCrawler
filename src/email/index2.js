@@ -52,6 +52,7 @@ const getdata = async () => {
     love: weekList[weaterResponse.week],
     icon: iconMap[weaterResponse.wea]
   };
+  console.log(weatherData)
   return weatherData
 }
 
