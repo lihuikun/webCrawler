@@ -48,7 +48,7 @@ const getdata = async () => {
     tip: weaterResponse.data.forecast[0].notice, // 这里可以根据天气情况给出不同的提示,
     day: calculateDaysSince('2023/11/26'),
     note,
-    content,
+    content:'',
     love: weekList[weaterResponse.week],
     icon: iconMap[weaterResponse.wea]
   };
